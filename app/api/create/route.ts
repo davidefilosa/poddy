@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { inngest } from "../../../inngest/client"; // Import our client
 import { auth } from "@clerk/nextjs/server";
+import { prismadb } from "@/lib/prismadb";
 
 // Opt out of caching; every request should send a new event
 export const dynamic = "force-dynamic";
@@ -14,15 +15,23 @@ export async function POST(request: Request) {
 
   const { topic, voice } = await request.json();
 
+  const story = await prismadb.story.create({
+    data: {
+      prompt: topic,
+      userId,
+    },
+  });
+
   // Send your event payload to Inngest
-  const response = await inngest.send({
+  await inngest.send({
     name: "test/generate.story",
     data: {
       topic,
       voice,
       userId,
+      storyId: story.id,
     },
   });
 
-  return NextResponse.json(response);
+  return NextResponse.json(story);
 }

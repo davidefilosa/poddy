@@ -25,12 +25,10 @@ export const StoryPreview = ({ story }: StoryPreviewProps) => {
     <Card
       className={cn(
         "w-full cursor-pointer h-fit relative group",
-        !story.ready && "cursor-auto animate-pulse"
+        !story.ready && "animate-pulse"
       )}
       onClick={() => {
-        if (story.ready) {
-          router.push(`/story/${story.id}`);
-        }
+        router.push(`/story/${story.id}`);
       }}
     >
       {story.ready && (

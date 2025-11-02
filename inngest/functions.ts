@@ -13,17 +13,6 @@ export const generateStory = inngest.createFunction(
     const userId = event.data.userId;
     if (!userId) throw new Error("User not authenticated");
 
-    const storyInDb = await step.run("create story", async () => {
-      const story = await prismadb.story.create({
-        data: {
-          userId,
-          prompt: event.data.topic,
-          title: "Your story is being generated...",
-        },
-      });
-      return story;
-    });
-
     const story = await step.run("generate-story", async () => {
       const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
       const model = genAI.getGenerativeModel({
@@ -69,9 +58,14 @@ export const generateStory = inngest.createFunction(
       return json;
     });
 
-    await step.sendEvent("content", {
-      name: "story/content.ready",
-      data: { transcript: story.transcript },
+    await step.run("store-transcript", async () => {
+      await prismadb.story.update({
+        where: { id: event.data.storyId },
+        data: {
+          title: story.title,
+          transcript: story.transcript,
+        },
+      });
     });
 
     const image_url = await step.run("generate-photo", async () => {
@@ -97,9 +91,13 @@ export const generateStory = inngest.createFunction(
       return fileUrl.publicUrl;
     });
 
-    await step.sendEvent("image", {
-      name: "story/image.ready",
-      data: { imageUrl: image_url },
+    await step.run("store-image", async () => {
+      await prismadb.story.update({
+        where: { id: event.data.storyId },
+        data: {
+          image_url,
+        },
+      });
     });
 
     const audio_url = await step.run("generate-audio", async () => {
@@ -116,18 +114,10 @@ export const generateStory = inngest.createFunction(
       return audioUrl.publicUrl;
     });
 
-    await step.sendEvent("audio", {
-      name: "story/audio.ready",
-      data: { audioUrl: audio_url },
-    });
-
     await step.run("store-story", async () => {
       const storyData = await prismadb.story.update({
-        where: { id: storyInDb.id },
+        where: { id: event.data.storyId },
         data: {
-          title: story.title,
-          transcript: story.transcript,
-          image_url,
           audio_url,
           ready: true,
         },

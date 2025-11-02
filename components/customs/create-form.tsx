@@ -18,8 +18,10 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useModalStore } from "@/stores/use-modal-store";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const CreateForm = () => {
+  const router = useRouter();
   const { setOpen } = useModalStore();
   const form = useForm<StoryFormSchemaType>({
     resolver: zodResolver(StoryFormSchema),
@@ -45,17 +47,16 @@ export const CreateForm = () => {
         body: JSON.stringify({ topic, voice }),
       }).then((res) => res.json());
 
-      console.log(story);
-
       return story;
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       form.reset();
       setOpen(false);
       toast.success("Story created", {
         id: "story",
       });
       await queryClient.invalidateQueries({ queryKey: ["stories"] });
+      router.push(`/story/${data.id}`);
     },
     onError: () => {
       toast.error("Something went wrong", {
