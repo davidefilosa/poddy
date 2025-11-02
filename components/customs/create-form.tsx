@@ -106,7 +106,7 @@ export const CreateForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isPending}>
+        <Button type="submit" disabled={isPending} className="w-full">
           Submit
         </Button>
       </form>
