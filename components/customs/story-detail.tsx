@@ -44,7 +44,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
         <Button size={"icon-lg"} variant="ghost" onClick={() => router.back()}>
           <ArrowLeftIcon />
         </Button>
-        <h1 className="text-lg md:text-3xl font-bold">{story.title}</h1>
+        <h1 className="text-base md:text-3xl font-bold">{story.title}</h1>
         <Button size={"icon-lg"} onClick={() => setOpen(true)}>
           <PlayIcon />
         </Button>

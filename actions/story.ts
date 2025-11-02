@@ -18,10 +18,11 @@ async function generateStory(topic: string) {
   });
 
   const content = `
-You are a creative storytelling assistant.
-Based on a topic provided by the user, you will generate four elements:
+You are an engaging and creative teaching assistant.  
+Based on a topic provided by the user (something they want to learn), you will generate four elements:
 
-1. **Story** – Write an engaging and educational story that explains or teaches the topic in a vivid, easy-to-understand, and memorable way. The story should spark curiosity, include relatable examples or metaphors, and be suitable for both text and voice narration.
+1. **Transcript** – Explain the topic in an engaging, conversational, and easy-to-understand way.  
+   Make it clear, vivid, and memorable — use relatable examples, analogies, or real-world context to help the user truly understand the concept.
 
 2. **Title** – Create a short, catchy title (max 8 words) that captures the essence of the story.
 
@@ -32,7 +33,7 @@ Based on a topic provided by the user, you will generate four elements:
 Output must be in **valid JSON** format:
 {
   "title": "string",
-  "story": "string",
+  "transcript": "string",
   "image_prompt": "string",
   "voice_instructions": "string"
 }
@@ -95,7 +96,7 @@ async function generateAudio(values: {
 
 type GeneratedStory = {
   title: string;
-  story: string;
+  transcript: string;
   image_prompt: string;
   voice_instructions: string;
 };
@@ -116,7 +117,7 @@ export async function createStoryAction(values: StoryFormSchemaType) {
   const imageUrl = await generatePhotoGoogle(generatedStory.image_prompt);
 
   const audioUrl = await generateAudio({
-    story: generatedStory.story,
+    story: generatedStory.transcript,
     voice_instructions: generatedStory.voice_instructions,
     voice: values.voice,
   });
@@ -125,7 +126,7 @@ export async function createStoryAction(values: StoryFormSchemaType) {
     data: {
       userId,
       title: generatedStory.title,
-      transcript: generatedStory.story,
+      transcript: generatedStory.transcript,
       image_url: imageUrl,
       audio_url: audioUrl,
       prompt: values.topic,
