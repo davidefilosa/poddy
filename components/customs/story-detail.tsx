@@ -52,8 +52,8 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
       <div className="flex flex-col gap-8 w-full">
         <AspectRatio ratio={16 / 9}>
           <Image
-            src={story.image_url}
-            alt={story.title}
+            src={story.image_url || "/placeholder.jpg"}
+            alt={story.title || "Story Image"}
             fill
             className="object-cover rounded-md"
           />
@@ -65,7 +65,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
       <StoryDrawer
         open={open}
         onOpenChange={setOpen}
-        audioUrl={story.audio_url}
+        audioUrl={story.audio_url || ""}
       />
     </div>
   );

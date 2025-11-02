@@ -16,7 +16,6 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createStoryAction } from "@/actions/story";
 import { useModalStore } from "@/stores/use-modal-store";
 import { toast } from "sonner";
 
@@ -33,7 +32,21 @@ export const CreateForm = () => {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: createStoryAction,
+    mutationFn: async (values: StoryFormSchemaType) => {
+      const parsedValues = StoryFormSchema.safeParse(values);
+      if (!parsedValues.success) {
+        throw new Error("Invalid form data");
+      }
+
+      const { topic, voice } = parsedValues.data;
+
+      const story = await fetch("/api/create", {
+        method: "POST",
+        body: JSON.stringify({ topic, voice }),
+      }).then((res) => res.json());
+
+      return story;
+    },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["stories"] });
       form.reset();

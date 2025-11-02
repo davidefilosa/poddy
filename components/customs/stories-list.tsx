@@ -9,6 +9,7 @@ export const StoriesList = () => {
   const stories = useQuery<GetStoriesResponseType>({
     queryKey: ["stories"],
     queryFn: () => fetch("/api/stories").then((res) => res.json()),
+    refetchInterval: 2500, // Refetch every 25 seconds
   });
 
   return (

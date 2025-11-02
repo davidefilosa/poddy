@@ -17,12 +17,13 @@ datasource db {
 
 model Story {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  title String
-  audio_url String
-  image_url String
-  transcript String 
-  prompt String  
-  
+  title String?
+  audio_url String?
+  image_url String?
+  transcript String?
+  prompt String
+  ready Boolean @default(false)
+
   userId String
  
   createdAt   DateTime @default(now())

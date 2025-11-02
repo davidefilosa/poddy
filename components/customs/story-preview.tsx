@@ -13,6 +13,7 @@ import Image from "next/image";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { useRouter } from "next/navigation";
 import { PlayCircleIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface StoryPreviewProps {
   story: GetStoriesResponseType[number];
@@ -22,23 +23,33 @@ export const StoryPreview = ({ story }: StoryPreviewProps) => {
   const router = useRouter();
   return (
     <Card
-      className="w-full cursor-pointer h-fit relative group"
-      onClick={() => router.push(`/story/${story.id}`)}
+      className={cn(
+        "w-full cursor-pointer h-fit relative group",
+        !story.ready && "cursor-auto animate-pulse"
+      )}
+      onClick={() => {
+        if (story.ready) {
+          router.push(`/story/${story.id}`);
+        }
+      }}
     >
-      <div className="absolute top-0 left-0 h-full w-full z-50 flex items-center justify-center opacity-0 hover:opacity-50 transition-opacity">
-        <PlayCircleIcon className="size-50" />
-      </div>
+      {story.ready && (
+        <div className="absolute top-2 right-2 z-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <PlayCircleIcon className="w-10 h-10 text-white drop-shadow-lg" />
+        </div>
+      )}
       <CardHeader>
         <CardTitle>{story.title}</CardTitle>
         <CardDescription className="line-clamp-2">
-          {story.transcript}
+          {story.transcript ||
+            "Your content is being created! The explanation, image, and audio are all being generated. You’ll be able to explore the full experience as soon as it’s ready"}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <AspectRatio className="relative w-full" ratio={16 / 9}>
           <Image
-            src={story.image_url}
-            alt={story.title}
+            src={story.image_url || "/placeholder.jpg"}
+            alt={story.title || "Story Image"}
             fill
             className="object-cover rounded-md"
           />
