@@ -97,8 +97,8 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
           </div>
         )}
         {story.transcript ? (
-          <ScrollArea className="h-82 p-4 border rounded-lg">
-            <div className="whitespace-pre-wrap text-sm md:text-base">
+          <ScrollArea className="h-screen p-4 border rounded-lg">
+            <div className="whitespace-pre-wrap text-base md:text-lg">
               {story.transcript}
             </div>
           </ScrollArea>

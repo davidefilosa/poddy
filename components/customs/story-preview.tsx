@@ -16,7 +16,7 @@ import { PlayCircleIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface StoryPreviewProps {
-  story: GetStoriesResponseType[number];
+  story: GetStoriesResponseType["stories"][number];
 }
 
 export const StoryPreview = ({ story }: StoryPreviewProps) => {

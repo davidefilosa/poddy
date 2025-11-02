@@ -1,14 +1,15 @@
 import { prismadb } from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs/server";
 
-export async function GET() {
-  const stories = await getStories();
+export async function POST(request: Request) {
+  const { page } = await request.json();
+  const stories = await getStories(page);
   return Response.json(stories);
 }
 
 export type GetStoriesResponseType = Awaited<ReturnType<typeof getStories>>;
 
-async function getStories() {
+async function getStories(page: number) {
   const { userId } = await auth();
   if (!userId) {
     throw new Error("Unauthorized");
@@ -21,6 +22,17 @@ async function getStories() {
     orderBy: {
       createdAt: "desc",
     },
+    skip: 0,
+    take: page * 11,
   });
-  return stories;
+
+  const totlalStories = await prismadb.story.count({
+    where: {
+      userId,
+    },
+  });
+
+  const hasMore = totlalStories > page * 10;
+
+  return { stories, hasMore };
 }
