@@ -58,7 +58,7 @@ export const CreateForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 p-4">
         <FormField
           control={form.control}
           name="topic"
