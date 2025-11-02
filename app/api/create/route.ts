@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   const { topic, voice } = await request.json();
 
   // Send your event payload to Inngest
-  await inngest.send({
+  const response = await inngest.send({
     name: "test/generate.story",
     data: {
       topic,
@@ -24,5 +24,5 @@ export async function POST(request: Request) {
     },
   });
 
-  return NextResponse.json({ success: true });
+  return NextResponse.json(response);
 }

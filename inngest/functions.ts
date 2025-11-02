@@ -69,6 +69,11 @@ export const generateStory = inngest.createFunction(
       return json;
     });
 
+    await step.sendEvent("content", {
+      name: "story/content.ready",
+      data: { transcript: story.transcript },
+    });
+
     const image_url = await step.run("generate-photo", async () => {
       const replicate = new Replicate({
         auth: process.env.REPLICATE_API_TOKEN,
@@ -92,6 +97,11 @@ export const generateStory = inngest.createFunction(
       return fileUrl.publicUrl;
     });
 
+    await step.sendEvent("image", {
+      name: "story/image.ready",
+      data: { imageUrl: image_url },
+    });
+
     const audio_url = await step.run("generate-audio", async () => {
       const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
       const mp3 = await openai.audio.speech.create({
@@ -104,6 +114,11 @@ export const generateStory = inngest.createFunction(
       const file = new File([buffer], `${uuidv4()}.mp3`);
       const audioUrl = await uploadFile(file);
       return audioUrl.publicUrl;
+    });
+
+    await step.sendEvent("audio", {
+      name: "story/audio.ready",
+      data: { audioUrl: audio_url },
     });
 
     await step.run("store-story", async () => {

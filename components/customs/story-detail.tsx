@@ -8,9 +8,11 @@ import { ArrowLeftIcon, Loader2Icon, PlayIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
-import "react-h5-audio-player/lib/styles.css";
 import { useState } from "react";
 import StoryDrawer from "./story-drower";
+
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
 
 interface StoryDetailProps {
   id: string;
@@ -58,6 +60,10 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
             className="object-cover rounded-md"
           />
         </AspectRatio>
+        <AudioPlayer
+          src={story.audio_url || ""}
+          className="w-full rounded-lg bg-background!"
+        />
         <ScrollArea className="w-full">
           <p>{story.transcript}</p>
         </ScrollArea>

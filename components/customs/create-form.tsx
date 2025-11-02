@@ -45,15 +45,17 @@ export const CreateForm = () => {
         body: JSON.stringify({ topic, voice }),
       }).then((res) => res.json());
 
+      console.log(story);
+
       return story;
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["stories"] });
       form.reset();
       setOpen(false);
       toast.success("Story created", {
         id: "story",
       });
+      await queryClient.invalidateQueries({ queryKey: ["stories"] });
     },
     onError: () => {
       toast.error("Something went wrong", {

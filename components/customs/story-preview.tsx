@@ -42,7 +42,7 @@ export const StoryPreview = ({ story }: StoryPreviewProps) => {
         <CardTitle>{story.title}</CardTitle>
         <CardDescription className="line-clamp-2">
           {story.transcript ||
-            "Your content is being created! The explanation, image, and audio are all being generated. You’ll be able to explore the full experience as soon as it’s ready"}
+            "The story and audio are all being generated. You’ll be able to explore the full experience as soon as it’s ready"}
         </CardDescription>
       </CardHeader>
       <CardContent>
