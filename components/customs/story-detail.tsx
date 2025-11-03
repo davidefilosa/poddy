@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
 import { motion, transform } from "motion/react";
+import Markdown from "react-markdown";
 
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
@@ -60,12 +61,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
       <motion.div
         className="fixed top-0 left-0 w-full h-1 bg-black z-50 origin-left"
         style={{ scaleX }}
-        transition={{
-          type: "spring",
-          stiffness: 120, // controls the “tightness” of the spring
-          damping: 20, // controls how much it bounces
-          mass: 0.5, // affects the feel of the motion
-        }}
+        transition={{ duration: 1 }}
       />
       <div className="flex items-center gap-4 justify-between px-2">
         <Button size={"icon-lg"} variant="ghost" onClick={() => router.back()}>
@@ -126,7 +122,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
         {story.transcript ? (
           <ScrollArea className="h-screen p-4 border rounded-lg">
             <div className="whitespace-pre-wrap text-base md:text-lg">
-              {story.transcript}
+              <Markdown>{story.transcript}</Markdown>
             </div>
           </ScrollArea>
         ) : (

@@ -22,18 +22,18 @@ export const StoriesList = () => {
 
   const stories = data.data?.stories;
 
-  if (!stories || stories.length === 0) {
+  if (data.isPending || !stories) {
     return (
       <div className="w-full h-screen flex flex-col items-center justify-center gap-4">
-        <p className="text-lg text-muted-foreground">No stories found.</p>
+        <Loader2 className="w-8 h-8 animate-spin" />
       </div>
     );
   }
 
-  if (data.isPending && !data.data) {
+  if (stories.length === 0) {
     return (
       <div className="w-full h-screen flex flex-col items-center justify-center gap-4">
-        <Loader2 className="w-8 h-8 animate-spin" />
+        <p className="text-lg text-muted-foreground">No stories found.</p>
       </div>
     );
   }
