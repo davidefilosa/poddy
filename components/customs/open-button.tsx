@@ -18,7 +18,7 @@ export const OpenButton = () => {
 
   return (
     <Card
-      className="w-full cursor-pointer h-fit relative group"
+      className="w-full cursor-pointer h-full relative group"
       onClick={() => setOpen(true)}
     >
       <div className="absolute top-0 left-0 h-full w-full z-50 flex items-center justify-center opacity-0 hover:opacity-50 transition-opacity">

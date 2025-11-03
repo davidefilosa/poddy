@@ -24,7 +24,7 @@ export const StoryPreview = ({ story }: StoryPreviewProps) => {
   return (
     <Card
       className={cn(
-        "w-full cursor-pointer h-fit relative group",
+        "w-full cursor-pointer h-full relative group",
         !story.ready && "animate-pulse"
       )}
       onClick={() => {
@@ -32,12 +32,12 @@ export const StoryPreview = ({ story }: StoryPreviewProps) => {
       }}
     >
       {story.ready && (
-        <div className="absolute top-2 right-2 z-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-          <PlayCircleIcon className="w-10 h-10 text-white drop-shadow-lg" />
+        <div className="absolute top-0 left-0 h-full w-full z-50 flex items-center justify-center opacity-0 hover:opacity-50 transition-opacity">
+          <PlayCircleIcon className="size-50" />
         </div>
       )}
       <CardHeader>
-        <CardTitle>{story.title}</CardTitle>
+        <CardTitle className="truncate">{story.title}</CardTitle>
         <CardDescription className="line-clamp-2">
           {story.transcript ||
             "The story and audio are all being generated. You’ll be able to explore the full experience as soon as it’s ready"}

@@ -40,7 +40,7 @@ export const StoriesList = () => {
 
   return (
     <div className="flex flex-col gap-4 items-center w-full p-2 md:p-8 ">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full auto-rows-fr">
         <OpenButton />
         {stories.map((story) => (
           <StoryPreview key={story.id} story={story} />
