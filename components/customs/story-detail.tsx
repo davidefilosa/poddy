@@ -95,7 +95,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
                 animate={{ scale: isPlaying ? 1.5 : 1 }}
                 initial={{ scale: 1 }}
                 transition={{
-                  duration: 60 * 2,
+                  duration: 60,
                   repeat: Infinity,
                   ease: "linear",
                   repeatType: "reverse",
