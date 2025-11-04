@@ -9,8 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { AspectRatio } from "../ui/aspect-ratio";
-import Image from "next/image";
 import { PlusCircleIcon } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "../ui/button";

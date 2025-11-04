@@ -65,14 +65,13 @@ export const StoriesList = () => {
             {stories.length === 0 ? (
               <div className="w-full h-screen flex flex-col items-center justify-center gap-4">
                 <div className="text-lg text-muted-foreground">
-                  No stories found.
+                  No stories found. Adjust your search criteria or{" "}
                   <span
                     className="text-black hover:underline cursor-pointer"
                     onClick={() => {
                       setOpen(true);
                     }}
                   >
-                    {" "}
                     Add a story
                   </span>
                 </div>
