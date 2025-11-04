@@ -2,14 +2,18 @@ import { prismadb } from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs/server";
 
 export async function POST(request: Request) {
-  const { page } = await request.json();
-  const stories = await getStories(page);
+  const { page, favoritesOnly, query } = await request.json();
+  const stories = await getStories(page, favoritesOnly, query);
   return Response.json(stories);
 }
 
 export type GetStoriesResponseType = Awaited<ReturnType<typeof getStories>>;
 
-async function getStories(page: number) {
+async function getStories(
+  page: number,
+  favoritesOnly: boolean,
+  query: string | null
+) {
   const { userId } = await auth();
   if (!userId) {
     throw new Error("Unauthorized");
@@ -18,6 +22,13 @@ async function getStories(page: number) {
   const stories = await prismadb.story.findMany({
     where: {
       userId,
+      ...(favoritesOnly && { isFavorite: true }),
+      ...(query && {
+        OR: [
+          { title: { contains: query, mode: "insensitive" } },
+          { transcript: { contains: query, mode: "insensitive" } },
+        ],
+      }),
     },
     orderBy: {
       createdAt: "desc",
@@ -29,6 +40,13 @@ async function getStories(page: number) {
   const totlalStories = await prismadb.story.count({
     where: {
       userId,
+      ...(favoritesOnly && { isFavorite: true }),
+      ...(query && {
+        OR: [
+          { title: { contains: query, mode: "insensitive" } },
+          { transcript: { contains: query, mode: "insensitive" } },
+        ],
+      }),
     },
   });
 

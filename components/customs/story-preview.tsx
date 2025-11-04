@@ -12,8 +12,8 @@ import {
 import Image from "next/image";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { useRouter } from "next/navigation";
-import { PlayCircleIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { FavoriteButton } from "./favorite-button";
 
 interface StoryPreviewProps {
   story: GetStoriesResponseType["stories"][number];
@@ -27,17 +27,16 @@ export const StoryPreview = ({ story }: StoryPreviewProps) => {
         "w-full cursor-pointer h-full relative group",
         !story.ready && "animate-pulse"
       )}
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation();
         router.push(`/story/${story.id}`);
       }}
     >
-      {story.ready && (
-        <div className="absolute top-0 left-0 h-full w-full z-50 flex items-center justify-center opacity-0 hover:opacity-50 transition-opacity">
-          <PlayCircleIcon className="size-50" />
-        </div>
-      )}
       <CardHeader>
-        <CardTitle className="truncate">{story.title}</CardTitle>
+        <div className="flex items-center justify-between w-full overflow-hidden gap-2">
+          <CardTitle className="truncate">{story.title}</CardTitle>
+          <FavoriteButton story={story} />
+        </div>
         <CardDescription className="line-clamp-2">
           {story.transcript ||
             "The story and audio are all being generated. You’ll be able to explore the full experience as soon as it’s ready"}

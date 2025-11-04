@@ -23,6 +23,7 @@ model Story {
   transcript String?
   prompt String
   ready Boolean @default(false)
+  isFavorite Boolean @default(false)
 
   userId String
  

@@ -15,6 +15,7 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { useState } from "react";
 import { DeleteButton } from "./delete-button";
+import { FavoriteButton } from "./favorite-button";
 
 interface StoryDetailProps {
   id: string;
@@ -79,7 +80,10 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
             Generating title
           </div>
         )}
-        <DeleteButton id={story.id} />
+        <div className="flex items-center gap-2">
+          <FavoriteButton story={story} />
+          <DeleteButton id={story.id} />
+        </div>
       </div>
       <div className="w-full max-w-5xl mx-auto flex flex-col gap-8 md:gap-16">
         <div className="flex flex-col gap-8 w-full">

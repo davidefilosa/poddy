@@ -160,3 +160,23 @@ export async function deleteStoryAction(storyId: string) {
     where: { id: storyId, userId },
   });
 }
+
+export async function toggleFavoriteStoryAction(storyId: string) {
+  const { userId } = await auth();
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+  const existingStory = await prismadb.story.findUnique({
+    where: { id: storyId, userId },
+  });
+  if (!existingStory) {
+    throw new Error("Story not found");
+  }
+
+  const updatedStory = await prismadb.story.update({
+    where: { id: storyId, userId },
+    data: { isFavorite: !existingStory.isFavorite },
+  });
+
+  return updatedStory;
+}
