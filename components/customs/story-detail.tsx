@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AspectRatio } from "../ui/aspect-ratio";
 import Image from "next/image";
 import { ArrowLeftIcon, Loader2Icon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
 import { motion, transform } from "motion/react";
@@ -13,7 +13,7 @@ import Markdown from "react-markdown";
 
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DeleteButton } from "./delete-button";
 import { FavoriteButton } from "./favorite-button";
 
@@ -51,6 +51,10 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
   );
 
   const scaleX = transform(isCompletePercentage, [0, 100], [0.2, 1]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   if (isPending || !story) {
     return (

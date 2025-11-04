@@ -63,11 +63,14 @@ export const StoriesList = () => {
         ) : (
           <>
             {stories.length === 0 ? (
-              <div className="w-full h-screen flex flex-col items-center justify-center gap-4">
+              <div className="w-full h-screen flex flex-col items-center justify-center gap-2">
                 <div className="text-lg text-muted-foreground">
-                  No stories found. Adjust your search criteria or{" "}
+                  No stories found.
+                </div>
+                <div className="text-black">
+                  Adjust your search criteria or{" "}
                   <span
-                    className="text-black hover:underline cursor-pointer"
+                    className="hover:underline cursor-pointer"
                     onClick={() => {
                       setOpen(true);
                     }}
@@ -86,13 +89,15 @@ export const StoriesList = () => {
             )}
           </>
         )}
-        <Button
-          onClick={() => setPage((prev) => prev + 1)}
-          className="w-fit"
-          disabled={!data.data?.hasMore || data.isPending}
-        >
-          {data.isPending ? "Loading..." : "Load More"}
-        </Button>
+        {stories.length > 0 && (
+          <Button
+            onClick={() => setPage((prev) => prev + 1)}
+            className="w-fit"
+            disabled={!data.data?.hasMore || data.isPending}
+          >
+            {data.isPending ? "Loading..." : "Load More"}
+          </Button>
+        )}
       </div>
     </div>
   );
