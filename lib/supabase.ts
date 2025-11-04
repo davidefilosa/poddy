@@ -17,8 +17,9 @@ export const uploadFile = async (file: File) => {
   return url;
 };
 
-export const deleteFile = async (path: string) => {
+export const deleteFile = async (fileUrl: string) => {
+  const path = fileUrl.split("/fabletunes/")[1];
   const { data, error } = await supabase.storage
     .from("fabletunes")
-    .remove([`public/${path}`]);
+    .remove([path]);
 };
