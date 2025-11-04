@@ -1,5 +1,5 @@
 "use server";
-import { uploadFile } from "@/lib/supabase";
+import { deleteFile, uploadFile } from "@/lib/supabase";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import Replicate from "replicate";
 import { v4 as uuidv4 } from "uuid";
@@ -133,4 +133,30 @@ export async function createStoryAction(values: StoryFormSchemaType) {
     },
   });
   return storyData;
+}
+
+export async function deleteStoryAction(storyId: string) {
+  const { userId } = await auth();
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+  const existingStory = await prismadb.story.findUnique({
+    where: { id: storyId, userId },
+  });
+
+  if (!existingStory) {
+    throw new Error("Story not found");
+  }
+
+  if (existingStory.audio_url) {
+    await deleteFile(existingStory.audio_url);
+  }
+
+  if (existingStory.image_url) {
+    await deleteFile(existingStory.image_url);
+  }
+
+  await prismadb.story.delete({
+    where: { id: storyId, userId },
+  });
 }

@@ -13,6 +13,8 @@ import Markdown from "react-markdown";
 
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
+import { useState } from "react";
+import { DeleteButton } from "./delete-button";
 
 interface StoryDetailProps {
   id: string;
@@ -20,6 +22,7 @@ interface StoryDetailProps {
 
 export const StoryDetail = ({ id }: StoryDetailProps) => {
   const router = useRouter();
+  const [isPlaying, setIsPlaying] = useState(false);
   const { data: story, isPending } = useQuery<GetStoryResponseType>({
     queryKey: ["story-detail", id],
     queryFn: async () => {
@@ -76,6 +79,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
             Generating title
           </div>
         )}
+        <DeleteButton id={story.id} />
       </div>
       <div className="w-full max-w-5xl mx-auto flex flex-col gap-8 md:gap-16">
         <div className="flex flex-col gap-8 w-full">
@@ -84,11 +88,18 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
               ratio={16 / 9}
               className="w-full rounded-lg overflow-hidden"
             >
-              <Image
+              <motion.img
                 src={story.image_url}
                 alt="Story Image"
-                fill
-                className="object-cover"
+                className="object-cover size-full"
+                animate={{ scale: isPlaying ? 1.5 : 1 }}
+                initial={{ scale: 1 }}
+                transition={{
+                  duration: 60 * 2,
+                  repeat: Infinity,
+                  ease: "linear",
+                  repeatType: "reverse",
+                }}
               />
             </AspectRatio>
           ) : (
@@ -110,12 +121,14 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
             <AudioPlayer
               src={story.audio_url || ""}
               className="w-full rounded-lg bg-background!"
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
             />
           ) : (
             <div className="flex flex-col gap-2">
               <AudioPlayer
                 src={story.audio_url || ""}
-                className="w-full rounded-lg bg-background!"
+                className="w-full rounded-lg bg-background! opacity-50"
               />
               <div className="text-xs text-muted-foreground px-2 animate-pulse">
                 Audio is being generated
