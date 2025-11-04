@@ -41,8 +41,8 @@ export const OpenButton = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center justify-center opacity-50 hover:opacity-100 transition-opacity">
-              <PlusCircleIcon className="size-50" />
+            <div className="mt-10 border p-8 rounded-md  flex items-center justify-center opacity-50 group-hover:opacity-100 transition-opacity">
+              <PlusCircleIcon className="size-40" />
             </div>
           </CardContent>
         </Card>

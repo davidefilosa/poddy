@@ -97,7 +97,8 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
                 alt="Story Image"
                 className="object-cover size-full"
                 animate={{ scale: isPlaying ? 1.5 : 1 }}
-                initial={{ scale: 1 }}
+                initial={{ scale: 1, opacity: 0 }}
+                whileInView={{ opacity: 1, transition: { duration: 1 } }}
                 transition={{
                   duration: 60,
                   repeat: Infinity,
