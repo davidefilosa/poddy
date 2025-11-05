@@ -25,9 +25,9 @@ export const generateStory = inngest.createFunction(
       const content = `
         You are an engaging and creative teaching assistant.  
         Based on a topic provided by the user (something they want to learn), you will generate four elements:
-        
-        1. **Transcript** – Explain the topic in an engaging, conversational, and easy-to-understand way, like it is a podcast.  
-           Make it clear, vivid, and memorable — use relatable examples, analogies, or real-world context to help the user truly understand the concept.
+
+        1. **Transcript** – Explain the topic in an engaging, conversational, and easy-to-understand way.
+           Make it clear, vivid, and memorable — use relatable examples, analogies, or real-world context to help the user truly understand the concept. Use markdown formatting with headings, bullet points, and short paragraphs to enhance readability.
         
         2. **Title** – Create a short, catchy title (max 8 words) that captures the essence of the story.
         

@@ -65,7 +65,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
   }
 
   return (
-    <div className="w-full p-2 md:p-8 flex flex-col gap-8 h-screen">
+    <div className="w-full p-2 md:p-8 flex flex-col gap-8 h-screen relative">
       <motion.div
         className="fixed top-0 left-0 w-full h-1.5 bg-black z-50 origin-left"
         style={{ scaleX }}
@@ -73,7 +73,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
         initial={{ scaleX: 0 }}
         animate={{ scaleX }}
       />
-      <div className="flex items-center gap-2 justify-between px-2">
+      <div className="flex items-center gap-2 justify-between px-2 sticky top-0 bg-white py-4 z-10">
         <Button size={"icon-lg"} variant="ghost" onClick={() => router.back()}>
           <ArrowLeftIcon />
         </Button>
