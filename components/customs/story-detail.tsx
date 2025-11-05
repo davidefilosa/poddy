@@ -66,7 +66,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
   return (
     <div className="w-full p-2 md:p-8 flex flex-col gap-8 h-screen relative">
       <motion.div
-        className="fixed top-0 left-0 w-full h-1.5 bg-black z-50 origin-left"
+        className="fixed top-0 left-0 w-full h-1.5 bg-primary z-50 origin-left"
         style={{ scaleX }}
         transition={{ duration: 1 }}
         initial={{ scaleX: 0 }}
