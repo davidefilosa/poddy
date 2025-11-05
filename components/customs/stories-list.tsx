@@ -31,8 +31,8 @@ export const StoriesList = () => {
   const stories = data.data?.stories || [];
 
   return (
-    <div className="flex flex-col gap-4 p-2 md:p-8 w-full min-h-screen">
-      <div className="flex flex-col-reverse md:flex-row gap-4 items-center justify-between text-lg font-bold w-full">
+    <div className="flex flex-col gap-4 p-2 md:p-8 w-full min-h-screen relative">
+      <div className="flex flex-col-reverse md:flex-row gap-4 items-center justify-between text-lg font-bold w-full sticky top-0 bg-white p-4  z-10 shadow-md">
         Your {favoritesOnly ? "Favorite" : "Last"} Stories
         <div className="flex justify-between items-center gap-2 w-full md:w-auto">
           <Input

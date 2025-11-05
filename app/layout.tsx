@@ -6,6 +6,7 @@ import { Navbar } from "@/components/customs/navbar";
 import QueryProvider from "@/components/providers/query-provider";
 import { CreateModal } from "@/components/customs/create-modal";
 import { Toaster } from "sonner";
+import { LenisProvider } from "@/components/providers/lenis-provider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -26,14 +27,16 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${inter.variable} antialiased`}>
-          <Navbar />
-          <main>
-            <QueryProvider>
-              {children}
-              <Toaster />
-              <CreateModal />
-            </QueryProvider>
-          </main>
+          <LenisProvider>
+            <Navbar />
+            <main>
+              <QueryProvider>
+                {children}
+                <Toaster />
+                <CreateModal />
+              </QueryProvider>
+            </main>
+          </LenisProvider>
         </body>
       </html>
     </ClerkProvider>
