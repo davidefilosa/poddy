@@ -8,7 +8,7 @@ import { prismadb } from "@/lib/prismadb";
 
 export const generateStory = inngest.createFunction(
   { id: "generate-story" },
-  { event: "test/generate.story" },
+  { event: "telly/generate.story" },
   async ({ event, step }) => {
     const userId = event.data.userId;
     if (!userId) throw new Error("User not authenticated");

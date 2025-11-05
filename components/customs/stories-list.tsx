@@ -5,15 +5,18 @@ import { OpenButton } from "./open-button";
 import { GetStoriesResponseType } from "@/app/api/stories/route";
 import { StoryPreview } from "./story-preview";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { use, useRef, useState } from "react";
 import { HeartIcon, Loader2 } from "lucide-react";
 import { useModalStore } from "@/stores/use-modal-store";
 import { cn } from "@/lib/utils";
 import { Input } from "../ui/input";
 import { useDebounce } from "@uidotdev/usehooks";
+import { useScroll, useMotionValueEvent } from "motion/react";
+import { ScrollButton } from "./scroll-button";
 
 export const StoriesList = () => {
   const [page, setPage] = useState(1);
+  const [scrolled, setScrolled] = useState(false);
   const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [query, setQuery] = useState<string | null>(null);
   const { setOpen } = useModalStore();
@@ -29,10 +32,29 @@ export const StoriesList = () => {
   });
 
   const stories = data.data?.stories || [];
+  const ref = useRef(null);
+
+  const { scrollY } = useScroll({ target: ref });
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (latest > 64) {
+      setScrolled(true);
+    } else {
+      setScrolled(false);
+    }
+  });
 
   return (
-    <div className="flex flex-col gap-4 p-2 md:p-8 w-full min-h-screen relative">
-      <div className="flex flex-col-reverse md:flex-row gap-4 items-center justify-between text-lg font-bold w-full sticky top-0 bg-white p-4  z-10 shadow-md">
+    <div
+      className="flex flex-col gap-4 p-2 md:p-8 w-full min-h-screen relative"
+      ref={ref}
+    >
+      <div
+        className={cn(
+          "flex flex-col-reverse md:flex-row gap-4 items-center justify-between text-lg font-bold w-full sticky top-0 bg-white p-4  z-10",
+          scrolled ? "shadow-md" : ""
+        )}
+      >
         Your {favoritesOnly ? "Favorite" : "Last"} Stories
         <div className="flex justify-between items-center gap-2 w-full md:w-auto">
           <Input
@@ -82,6 +104,7 @@ export const StoriesList = () => {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full auto-rows-fr">
                 <OpenButton />
+                <ScrollButton />
                 {stories.map((story) => (
                   <StoryPreview key={story.id} story={story} />
                 ))}

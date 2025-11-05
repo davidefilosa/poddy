@@ -24,7 +24,7 @@ export async function POST(request: Request) {
 
   // Send your event payload to Inngest
   await inngest.send({
-    name: "test/generate.story",
+    name: "telly/generate.story",
     data: {
       topic,
       voice,
