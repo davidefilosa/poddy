@@ -27,7 +27,7 @@ export const generateStory = inngest.createFunction(
         Based on a topic provided by the user (something they want to learn), you will generate four elements:
 
         1. **Transcript** – Explain the topic in an engaging, conversational, and easy-to-understand way.
-           Make it clear, vivid, and memorable — use relatable examples, analogies, or real-world context to help the user truly understand the concept. Use markdown formatting with headings, bullet points, and short paragraphs to enhance readability.
+           Make it clear, vivid, and memorable — use relatable examples, analogies, or real-world context to help the user truly understand the concept.
         
         2. **Title** – Create a short, catchy title (max 8 words) that captures the essence of the story.
         
