@@ -28,7 +28,7 @@ export const FavoriteButton = ({ story }: FavoriteButtonProps) => {
   return (
     <Button
       size={"icon"}
-      variant={story.isFavorite ? "outline" : "ghost"}
+      variant="ghost"
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();

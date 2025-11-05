@@ -70,7 +70,7 @@ export const StoriesList = () => {
           <Button
             onClick={() => setFavoritesOnly((prev) => !prev)}
             size={"icon-lg"}
-            variant={favoritesOnly ? "outline" : "ghost"}
+            variant="ghost"
           >
             <HeartIcon
               className={cn(
