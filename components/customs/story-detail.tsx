@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AspectRatio } from "../ui/aspect-ratio";
 import Image from "next/image";
 import { ArrowLeftIcon, Loader2Icon } from "lucide-react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
 import { motion, transform } from "motion/react";

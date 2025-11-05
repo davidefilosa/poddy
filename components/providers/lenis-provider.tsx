@@ -8,7 +8,7 @@ export const LenisProvider = ({ children }: { children: React.ReactNode }) => {
     <ReactLenis
       root
       ref={lenisRef}
-      options={{ lerp: 0.1, duration: 2, smoothWheel: true }}
+      options={{ lerp: 0.1, duration: 1.5, smoothWheel: true }}
     >
       {children}
     </ReactLenis>
