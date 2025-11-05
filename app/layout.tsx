@@ -27,16 +27,16 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${inter.variable} antialiased`}>
-          <LenisProvider>
-            <Navbar />
-            <main>
-              <QueryProvider>
+          <QueryProvider>
+            <LenisProvider>
+              <Navbar />
+              <main>
                 {children}
                 <Toaster />
                 <CreateModal />
-              </QueryProvider>
-            </main>
-          </LenisProvider>
+              </main>
+            </LenisProvider>
+          </QueryProvider>
         </body>
       </html>
     </ClerkProvider>

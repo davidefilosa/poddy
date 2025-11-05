@@ -73,7 +73,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
         initial={{ scaleX: 0 }}
         animate={{ scaleX }}
       />
-      <div className="flex items-center gap-4 justify-between px-2">
+      <div className="flex items-center gap-2 justify-between px-2">
         <Button size={"icon-lg"} variant="ghost" onClick={() => router.back()}>
           <ArrowLeftIcon />
         </Button>
@@ -86,7 +86,6 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
         )}
         <div className="flex items-center gap-2">
           <FavoriteButton story={story} />
-          <DeleteButton id={story.id} />
         </div>
       </div>
       <div className="w-full max-w-5xl mx-auto flex flex-col gap-8 md:gap-16">
@@ -161,6 +160,9 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
             </div>
           )}
         </div>
+      </div>
+      <div className="flex items-center gap-2 justify-end w-full px-2">
+        <DeleteButton id={story.id} />
       </div>
     </div>
   );
