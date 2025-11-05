@@ -42,13 +42,11 @@ Topic: "${topic}"
       `;
   const result = await model.generateContent(content);
   const response = result.response;
-  console.log(response.text());
   const text = response
     .text()
     .replace("```json", "")
     .replace("```", "")
     .replace("ny", "");
-  console.log(text);
   const json = JSON.parse(text);
   return json;
 }
@@ -178,5 +176,43 @@ export async function toggleFavoriteStoryAction(storyId: string) {
     data: { isFavorite: !existingStory.isFavorite },
   });
 
+  return updatedStory;
+}
+
+export async function regenerateImageAction(storyId: string) {
+  const { userId } = await auth();
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+  const existingStory = await prismadb.story.findUnique({
+    where: { id: storyId, userId },
+  });
+
+  if (!existingStory) {
+    throw new Error("Story not found");
+  }
+
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+  const model = genAI.getGenerativeModel({
+    model: "gemini-2.5-pro-preview-03-25",
+    generationConfig: {
+      responseMimeType: "text/plain",
+    },
+  });
+
+  const content = `
+ **Image Prompt** – Write a detailed visual prompt that captures the key scene, mood, and atmosphere of the story. The prompt should be descriptive enough for an image generation model (like DALL·E or Midjourney) to visualize accurately.
+
+Story: "${existingStory.transcript}"
+      `;
+  const result = await model.generateContent(content);
+  const response = result.response;
+  const text = response.text();
+
+  const newImageUrl = await generatePhotoGoogle(text);
+  const updatedStory = await prismadb.story.update({
+    where: { id: storyId, userId },
+    data: { image_url: newImageUrl },
+  });
   return updatedStory;
 }

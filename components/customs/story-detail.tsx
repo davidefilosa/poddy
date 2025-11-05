@@ -2,8 +2,6 @@
 
 import { GetStoryResponseType } from "@/app/api/story/route";
 import { useQuery } from "@tanstack/react-query";
-import { AspectRatio } from "../ui/aspect-ratio";
-import Image from "next/image";
 import { ArrowLeftIcon, Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
@@ -16,6 +14,7 @@ import "react-h5-audio-player/lib/styles.css";
 import { useEffect, useState } from "react";
 import { DeleteButton } from "./delete-button";
 import { FavoriteButton } from "./favorite-button";
+import { StoryDetailImage } from "./story-detail-image";
 
 interface StoryDetailProps {
   id: string;
@@ -89,41 +88,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
         </div>
       </div>
       <div className="w-full max-w-5xl mx-auto flex flex-col gap-8 md:gap-16">
-        <div className="flex flex-col gap-8 w-full">
-          {story.image_url ? (
-            <AspectRatio
-              ratio={16 / 9}
-              className="w-full rounded-lg overflow-hidden"
-            >
-              <motion.img
-                src={story.image_url}
-                alt="Story Image"
-                className="object-cover size-full"
-                animate={{ scale: isPlaying ? 1.5 : 1 }}
-                initial={{ scale: 1, opacity: 0 }}
-                whileInView={{ opacity: 1, transition: { duration: 1 } }}
-                transition={{
-                  duration: 60,
-                  repeat: Infinity,
-                  ease: "linear",
-                  repeatType: "reverse",
-                }}
-              />
-            </AspectRatio>
-          ) : (
-            <AspectRatio
-              ratio={16 / 9}
-              className="w-full rounded-lg overflow-hidden"
-            >
-              <Image
-                src={"/placeholder.jpg"}
-                alt="Story Image"
-                fill
-                className="object-cover opacity-50"
-              />
-            </AspectRatio>
-          )}
-        </div>
+        <StoryDetailImage story={story} isPlaying={isPlaying} />
         <div className="flex flex-col gap-8 w-full">
           {story.audio_url ? (
             <AudioPlayer
