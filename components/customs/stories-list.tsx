@@ -5,13 +5,13 @@ import { OpenButton } from "./open-button";
 import { GetStoriesResponseType } from "@/app/api/stories/route";
 import { StoryPreview } from "./story-preview";
 import { Button } from "../ui/button";
-import { use, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { HeartIcon, Loader2 } from "lucide-react";
 import { useModalStore } from "@/stores/use-modal-store";
 import { cn } from "@/lib/utils";
 import { Input } from "../ui/input";
 import { useDebounce } from "@uidotdev/usehooks";
-import { useScroll, useMotionValueEvent } from "motion/react";
+import { useScroll, useMotionValueEvent, motion } from "motion/react";
 import { ScrollButton } from "./scroll-button";
 
 export const StoriesList = () => {
@@ -49,11 +49,15 @@ export const StoriesList = () => {
       className="flex flex-col gap-4 p-2 md:p-8 w-full min-h-screen relative"
       ref={ref}
     >
-      <div
-        className={cn(
-          "flex flex-col-reverse md:flex-row gap-4 items-center justify-between text-lg font-bold w-full sticky top-0 bg-white p-4  z-10",
-          scrolled ? "shadow-md" : ""
-        )}
+      <motion.div
+        className="flex flex-col-reverse md:flex-row gap-4 items-center justify-between text-lg font-bold w-full sticky top-0 bg-white p-4  z-10"
+        initial={{ boxShadow: "0px 0px 0px rgba(0,0,0,0)" }}
+        animate={{
+          boxShadow: scrolled
+            ? "0px 4px 8px rgba(0,0,0,0.1)"
+            : "0px 0px 0px rgba(0,0,0,0)",
+        }}
+        transition={{ duration: 0.5 }}
       >
         Your {favoritesOnly ? "Favorite" : "Last"} Stories
         <div className="flex justify-between items-center gap-2 w-full md:w-auto">
@@ -76,7 +80,7 @@ export const StoriesList = () => {
             />
           </Button>
         </div>
-      </div>
+      </motion.div>
       <div className="flex flex-col gap-4 items-center w-full ">
         {data.isPending ? (
           <div className="w-full h-screen flex flex-col items-center justify-center gap-4">
