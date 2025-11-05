@@ -72,7 +72,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
         initial={{ scaleX: 0 }}
         animate={{ scaleX }}
       />
-      <div className="flex items-center gap-2 justify-between px-2 sticky top-0 bg-background py-4 z-10">
+      <div className="flex items-center gap-2 justify-between px-2 sticky top-0 bg-background py-4 z-25">
         <Button size={"icon-lg"} variant="ghost" onClick={() => router.back()}>
           <ArrowLeftIcon />
         </Button>

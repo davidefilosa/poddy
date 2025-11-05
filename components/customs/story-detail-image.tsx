@@ -45,11 +45,18 @@ export const StoryDetailImage = ({
 
   return (
     <div className="flex flex-col gap-8 w-full relative">
-      <div className="absolute bottom-4 right-4 z-10 ">
-        <Button onClick={() => onRegenerate(story?.id)} disabled={isPending}>
-          <Repeat2Icon />
-        </Button>
-      </div>
+      {story?.image_url && (
+        <div className="absolute bottom-4 right-4 z-10">
+          <Button
+            onClick={() => onRegenerate(story?.id)}
+            disabled={isPending}
+            variant={"secondary"}
+            size={"icon"}
+          >
+            <Repeat2Icon />
+          </Button>
+        </div>
+      )}
       {story?.image_url ? (
         <AspectRatio
           ratio={16 / 9}
