@@ -161,7 +161,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
           )}
         </div>
       </div>
-      <div className="flex items-center gap-2 justify-end w-full px-2">
+      <div className="flex items-center gap-2 justify-end w-full p-2 border rounded-md max-w-5xl mx-auto">
         <DeleteButton id={story.id} />
       </div>
     </div>
