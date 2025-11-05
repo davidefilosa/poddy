@@ -31,7 +31,7 @@ export const OpenButton = () => {
         </div>
       ) : (
         <Card
-          className="w-full cursor-pointer h-full relative group"
+          className="w-full cursor-pointer h-full relative group hover:scale-102 transition-transform duration-1000"
           onClick={() => setOpen(true)}
         >
           <CardHeader>
@@ -41,7 +41,7 @@ export const OpenButton = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="mt-10 border p-8 rounded-md  flex items-center justify-center opacity-50 group-hover:opacity-100 transition-opacity">
+            <div className="mt-10 border p-8 rounded-md  flex items-center justify-center opacity-50 group-hover:opacity-100 transition-opacity duration-1000">
               <PlusCircleIcon className="size-40" />
             </div>
           </CardContent>

@@ -6,7 +6,7 @@ import { GetStoriesResponseType } from "@/app/api/stories/route";
 import { StoryPreview } from "./story-preview";
 import { Button } from "../ui/button";
 import { useRef, useState } from "react";
-import { HeartIcon, Loader2 } from "lucide-react";
+import { ChevronDownIcon, HeartIcon, Loader2 } from "lucide-react";
 import { useModalStore } from "@/stores/use-modal-store";
 import { cn } from "@/lib/utils";
 import { Input } from "../ui/input";
@@ -50,7 +50,7 @@ export const StoriesList = () => {
       ref={ref}
     >
       <motion.div
-        className="flex flex-col-reverse md:flex-row gap-4 items-center justify-between text-lg font-bold w-full sticky top-0 bg-white p-4  z-10"
+        className="flex flex-col-reverse md:flex-row gap-4 items-center justify-between text-lg font-bold w-full sticky top-0 bg-background p-4  z-10"
         initial={{ boxShadow: "0px 0px 0px rgba(0,0,0,0)" }}
         animate={{
           boxShadow: scrolled
@@ -119,10 +119,16 @@ export const StoriesList = () => {
         {stories.length > 0 && (
           <Button
             onClick={() => setPage((prev) => prev + 1)}
-            className="w-fit"
-            disabled={!data.data?.hasMore || data.isPending}
+            className="w-auto"
+            disabled={
+              !data.data?.hasMore || data.isPending || data.isRefetching
+            }
           >
-            {data.isPending ? "Loading..." : "Load More"}
+            {data.isPending || data.isRefetching ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <ChevronDownIcon className="w-4 h-4" />
+            )}
           </Button>
         )}
       </div>
