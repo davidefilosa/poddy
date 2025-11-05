@@ -38,9 +38,7 @@ export const FavoriteButton = ({ story }: FavoriteButtonProps) => {
       className="shrink-0"
     >
       <HeartIcon
-        className={cn(
-          story.isFavorite ? "text-red-500 fill-red-500" : "text-black"
-        )}
+        className={cn(story.isFavorite ? "text-red-500 fill-red-500" : "")}
       />
     </Button>
   );
