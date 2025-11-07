@@ -51,6 +51,10 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
 
   const scaleX = transform(isCompletePercentage, [0, 100], [0.2, 1]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   if (isPending || !story) {
     return (
       <div className="w-full flex items-center justify-center min-h-screen">

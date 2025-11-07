@@ -109,7 +109,7 @@ export const StoriesGrid = () => {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full auto-rows-fr relative p-2 md:p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 w-full auto-rows-fr relative p-2 md:p-8">
                 <OpenCard />
                 <div className="fixed bottom-6 right-6 flex items-center gap-2 z-50">
                   <ScrollButton />
