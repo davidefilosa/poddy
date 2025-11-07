@@ -1,7 +1,6 @@
 "use client";
 
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { OpenButton } from "./open-button";
 import { GetStoriesResponseType } from "@/app/api/stories/route";
 import { StoryPreview } from "./story-preview";
 import { Button } from "../ui/button";
@@ -13,6 +12,8 @@ import { Input } from "../ui/input";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useScroll, useMotionValueEvent, motion } from "motion/react";
 import { ScrollButton } from "./scroll-button";
+import { OpenCard } from "./open-card";
+import { OpenButton } from "./open-button";
 
 export const StoriesList = () => {
   const [page, setPage] = useState(1);
@@ -106,9 +107,12 @@ export const StoriesList = () => {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full auto-rows-fr">
-                <OpenButton />
-                <ScrollButton />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full auto-rows-fr relative">
+                <OpenCard />
+                <div className="fixed bottom-6 right-6 flex items-center gap-2 z-50">
+                  <ScrollButton />
+                  <OpenButton />
+                </div>
                 {stories.map((story) => (
                   <StoryPreview key={story.id} story={story} />
                 ))}
@@ -118,6 +122,7 @@ export const StoriesList = () => {
         )}
         {stories.length > 0 && (
           <Button
+            variant={"secondary"}
             onClick={() => setPage((prev) => prev + 1)}
             className="w-auto"
             disabled={

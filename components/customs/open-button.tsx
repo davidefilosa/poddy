@@ -1,51 +1,54 @@
 "use client";
 
 import { useModalStore } from "@/stores/use-modal-store";
-import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import React, { useState } from "react";
+
 import { PlusCircleIcon } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "../ui/button";
+import { useMotionValueEvent, useScroll, motion } from "motion/react";
 
 export const OpenButton = () => {
   const { setOpen } = useModalStore();
+  const { scrollY } = useScroll();
+  const [visible, setVisible] = useState(false);
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setVisible(latest > 450);
+  });
+
   const isMobile = useIsMobile();
 
   return (
     <>
       {isMobile ? (
-        <div className="fixed bottom-6 right-6 z-50">
+        <div className="z-50">
           <Button
             size={"icon-lg"}
             onClick={() => setOpen(true)}
             className="rounded-full shadow-lg"
           >
-            <PlusCircleIcon />
+            <PlusCircleIcon className="size-6" />
           </Button>
         </div>
       ) : (
-        <Card
-          className="w-full cursor-pointer h-full relative group hover:scale-102 transition-transform duration-1000"
-          onClick={() => setOpen(true)}
+        <motion.div
+          className="origin-center"
+          initial={{ scale: 0, opacity: 0, y: 20 }}
+          animate={
+            visible
+              ? { scale: 1, opacity: 1, y: 0 }
+              : { scale: 0, opacity: 0, y: 20 }
+          }
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
-          <CardHeader>
-            <CardTitle>Create Story</CardTitle>
-            <CardDescription className="line-clamp-2">
-              Click to create a new story based on your chosen topic.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="mt-10 border p-8 rounded-md  flex items-center justify-center opacity-50 group-hover:opacity-100 transition-opacity duration-1000">
-              <PlusCircleIcon className="size-40" />
-            </div>
-          </CardContent>
-        </Card>
+          <Button
+            size={"icon-lg"}
+            onClick={() => setOpen(true)}
+            className="rounded-full shadow-lg"
+          >
+            <PlusCircleIcon className="size-6" />
+          </Button>
+        </motion.div>
       )}
     </>
   );
