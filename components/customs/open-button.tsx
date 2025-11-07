@@ -7,6 +7,7 @@ import { PlusCircleIcon } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "../ui/button";
 import { useMotionValueEvent, useScroll, motion } from "motion/react";
+import { useLayoutStore } from "@/stores/use-layout-store";
 
 export const OpenButton = () => {
   const { setOpen } = useModalStore();
@@ -15,12 +16,13 @@ export const OpenButton = () => {
   useMotionValueEvent(scrollY, "change", (latest) => {
     setVisible(latest > 450);
   });
+  const { layout } = useLayoutStore();
 
   const isMobile = useIsMobile();
 
   return (
     <>
-      {isMobile ? (
+      {isMobile || layout === "list" ? (
         <div className="z-50">
           <Button
             size={"icon-lg"}

@@ -2,6 +2,7 @@
 
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { GetStoriesResponseType } from "@/app/api/stories/route";
+import { StoryPreview } from "./story-preview";
 import { Button } from "../ui/button";
 import { useRef, useState } from "react";
 import { ChevronDownIcon, HeartIcon, Loader2 } from "lucide-react";
@@ -11,11 +12,11 @@ import { Input } from "../ui/input";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useScroll, useMotionValueEvent, motion } from "motion/react";
 import { ScrollButton } from "./scroll-button";
+import { OpenCard } from "./open-card";
 import { OpenButton } from "./open-button";
-import { StoryListPreview } from "./stories-list-prreview";
 import { LayoutButton } from "./layout-button";
 
-export const StoriesList = () => {
+export const StoriesGrid = () => {
   const [page, setPage] = useState(1);
   const [scrolled, setScrolled] = useState(false);
   const [favoritesOnly, setFavoritesOnly] = useState(false);
@@ -83,7 +84,6 @@ export const StoriesList = () => {
           <LayoutButton />
         </div>
       </motion.div>
-
       <div className="flex flex-col gap-4 items-center w-full ">
         {data.isPending ? (
           <div className="w-full h-screen flex flex-col items-center justify-center gap-4">
@@ -109,13 +109,14 @@ export const StoriesList = () => {
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col gap-4 w-full max-w-7xl relative p-2 md:p-8 mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full auto-rows-fr relative p-2 md:p-8">
+                <OpenCard />
                 <div className="fixed bottom-6 right-6 flex items-center gap-2 z-50">
                   <ScrollButton />
                   <OpenButton />
                 </div>
                 {stories.map((story) => (
-                  <StoryListPreview key={story.id} story={story} />
+                  <StoryPreview key={story.id} story={story} />
                 ))}
               </div>
             )}
