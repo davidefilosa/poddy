@@ -23,7 +23,7 @@ export const StoryListPreview = ({ story }: StoryPreviewProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       initial={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.5 }}
-      className="w-full border-b pb-4 border-primary "
+      className="w-full border-b pb-8 border-primary "
       viewport={{ once: true }}
     >
       <div
