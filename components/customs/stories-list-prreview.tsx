@@ -23,7 +23,7 @@ export const StoryListPreview = ({ story }: StoryPreviewProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       initial={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.5 }}
-      className="w-full"
+      className="w-full border-b pb-4 border-primary "
       viewport={{ once: true }}
     >
       <div
@@ -62,7 +62,6 @@ export const StoryListPreview = ({ story }: StoryPreviewProps) => {
           </div>
         </div>
       </div>
-      <Separator className="my-4 bg-black" />
     </motion.div>
   );
 };
