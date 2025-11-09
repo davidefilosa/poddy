@@ -188,6 +188,11 @@ export async function regenerateImageAction(storyId: string) {
     where: { id: storyId, userId },
   });
 
+  await prismadb.story.update({
+    where: { id: storyId, userId },
+    data: { ready: false },
+  });
+
   if (!existingStory) {
     throw new Error("Story not found");
   }
@@ -212,7 +217,7 @@ Story: "${existingStory.transcript}"
   const newImageUrl = await generatePhotoGoogle(text);
   const updatedStory = await prismadb.story.update({
     where: { id: storyId, userId },
-    data: { image_url: newImageUrl },
+    data: { image_url: newImageUrl, ready: true },
   });
   return updatedStory;
 }

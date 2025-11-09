@@ -32,7 +32,8 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
       });
       return response.json();
     },
-    refetchInterval: 10000,
+    // Use the fetched data to decide the refetch interval to avoid local synchronous setState in effects
+    refetchInterval: (data) => (data.state.data?.ready ? false : 3000),
   });
 
   const keysToCheck = ["title", "audio_url", "image_url", "transcript"];
