@@ -16,7 +16,7 @@ export const generateStory = inngest.createFunction(
     const story = await step.run("generate-story", async () => {
       const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
       const model = genAI.getGenerativeModel({
-        model: "gemini-2.5-pro-preview-03-25",
+        model: "gemini-3.0-pro",
         generationConfig: {
           responseMimeType: "application/json",
         },
