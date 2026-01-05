@@ -11,7 +11,7 @@ import { prismadb } from "@/lib/prismadb";
 async function generateStory(topic: string) {
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
   const model = genAI.getGenerativeModel({
-    model: "gemini-2.5-pro-preview-03-25",
+    model: "gemini-3-pro-preview"
     generationConfig: {
       responseMimeType: "application/json",
     },
@@ -199,7 +199,7 @@ export async function regenerateImageAction(storyId: string) {
 
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
   const model = genAI.getGenerativeModel({
-    model: "gemini-2.5-pro-preview-03-25",
+    model: "gemini-3-pro-preview",
     generationConfig: {
       responseMimeType: "text/plain",
     },
