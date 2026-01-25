@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { DeleteButton } from "./delete-button";
 import { FavoriteButton } from "./favorite-button";
 import { StoryDetailImage } from "./story-detail-image";
+import { Navigation } from "./navigation";
 
 interface StoryDetailProps {
   id: string;
@@ -47,7 +48,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
       return value !== "" && value !== null && value !== undefined;
     }).length /
       keysToCheck.length) *
-      100
+      100,
   );
 
   const scaleX = transform(isCompletePercentage, [0, 100], [0.2, 1]);
@@ -127,6 +128,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
           )}
         </div>
       </div>
+      <Navigation id={story.id} />
       <div className="flex items-center gap-2 justify-end w-full p-2 border rounded-md max-w-5xl mx-auto">
         <DeleteButton id={story.id} />
       </div>
