@@ -37,7 +37,7 @@ export const Navigation = ({ id }: NavigationProps) => {
             onClick={() => router.push(`/story/${story?.id}`)}
           >
             <Image
-              src={story?.image_url || "/default-image.png"}
+              src={story?.image_url || "/placeholder.jpg"}
               alt={story?.title || "Untitled Story"}
               fill
               className="w-full object-cover h-full"

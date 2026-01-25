@@ -63,14 +63,18 @@ export const DeleteButton = ({ id }: DeleteButtonProps) => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <Button
-        variant="destructive"
-        size={"icon"}
-        disabled={isPending}
-        onClick={() => setOpen(true)}
-      >
-        <Trash2Icon />
-      </Button>
+      <div className="flex items-center gap-2 justify-end w-full p-2  border rounded-lg max-w-5xl mx-auto">
+        <div>
+          <Button
+            variant="destructive"
+            size={"icon"}
+            disabled={isPending}
+            onClick={() => setOpen(true)}
+          >
+            <Trash2Icon />
+          </Button>
+        </div>
+      </div>
     </>
   );
 };

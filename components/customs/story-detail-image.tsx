@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AspectRatio } from "../ui/aspect-ratio";
-import { motion } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import Image from "next/image";
 import { GetStoryResponseType } from "@/app/api/story/route";
 import { Button } from "../ui/button";
@@ -20,6 +20,8 @@ export const StoryDetailImage = ({
   isPlaying,
 }: StoryDetailImageProps) => {
   const [regenerating, setRegenerating] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: regenerateImageAction,
@@ -44,7 +46,10 @@ export const StoryDetailImage = ({
   };
 
   return (
-    <div className="flex flex-col gap-8 w-full relative">
+    <motion.div
+      className="flex flex-col gap-8 w-full relative origin-top"
+      style={{ opacity }}
+    >
       {story?.image_url && (
         <div className="absolute bottom-4 right-4 z-10">
           <Button
@@ -66,8 +71,8 @@ export const StoryDetailImage = ({
             src={story.image_url}
             alt="Story Image"
             className={cn(
-              "object-cover w-full h-full",
-              regenerating && "animate-pulse"
+              "object-cover w-full h-full rounded-lg",
+              regenerating && "animate-pulse",
             )}
             animate={{ scale: isPlaying ? 1.5 : 1 }}
             initial={{ scale: 1, opacity: 0 }}
@@ -93,6 +98,6 @@ export const StoryDetailImage = ({
           />
         </AspectRatio>
       )}
-    </div>
+    </motion.div>
   );
 };

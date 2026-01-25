@@ -129,9 +129,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
         </div>
       </div>
       <Navigation id={story.id} />
-      <div className="flex items-center gap-2 justify-end w-full p-2 border rounded-md max-w-5xl mx-auto">
-        <DeleteButton id={story.id} />
-      </div>
+      <DeleteButton id={story.id} />
     </div>
   );
 };
