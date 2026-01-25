@@ -31,14 +31,16 @@ export default function RootLayout({
         <body className={`${inter.variable} antialiased`}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <QueryProvider>
-              <LenisProvider>
-                <Navbar />
-                <main>
-                  <Suspense> {children}</Suspense>
-                  <Toaster />
-                  <CreateModal />
-                </main>
-              </LenisProvider>
+              <Suspense>
+                <LenisProvider>
+                  <Navbar />
+                  <main>
+                    {children}
+                    <Toaster />
+                    <CreateModal />
+                  </main>
+                </LenisProvider>
+              </Suspense>
             </QueryProvider>
           </ThemeProvider>
         </body>
