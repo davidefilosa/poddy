@@ -2,8 +2,8 @@ import { prismadb } from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs/server";
 
 export async function POST(request: Request) {
-  const { page, favoritesOnly, query } = await request.json();
-  const stories = await getStories(page, favoritesOnly, query);
+  const { page, favorite, query } = await request.json();
+  const stories = await getStories(page, favorite, query);
   return Response.json(stories);
 }
 
@@ -11,8 +11,8 @@ export type GetStoriesResponseType = Awaited<ReturnType<typeof getStories>>;
 
 async function getStories(
   page: number,
-  favoritesOnly: boolean,
-  query: string | null
+  favorite: boolean,
+  query: string | null,
 ) {
   const { userId } = await auth();
   if (!userId) {
@@ -22,7 +22,7 @@ async function getStories(
   const stories = await prismadb.story.findMany({
     where: {
       userId,
-      ...(favoritesOnly && { isFavorite: true }),
+      ...(favorite && { isFavorite: true }),
       ...(query && {
         OR: [
           { title: { contains: query, mode: "insensitive" } },
@@ -40,7 +40,7 @@ async function getStories(
   const totlalStories = await prismadb.story.count({
     where: {
       userId,
-      ...(favoritesOnly && { isFavorite: true }),
+      ...(favorite && { isFavorite: true }),
       ...(query && {
         OR: [
           { title: { contains: query, mode: "insensitive" } },

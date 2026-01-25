@@ -14,20 +14,21 @@ import { ScrollButton } from "./scroll-button";
 import { OpenButton } from "./open-button";
 import { StoryListPreview } from "./stories-list-prreview";
 import { LayoutButton } from "./layout-button";
+import { useFavoriteStore } from "@/stores/use-favorite-store";
 
 export const StoriesList = () => {
   const [page, setPage] = useState(1);
   const [scrolled, setScrolled] = useState(false);
-  const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const { favorite, toggleFavorite } = useFavoriteStore();
   const [query, setQuery] = useState<string | null>(null);
   const { setOpen } = useModalStore();
   const debouncedQuery = useDebounce(query, 300);
   const data = useQuery<GetStoriesResponseType>({
-    queryKey: ["stories", page, favoritesOnly, debouncedQuery],
+    queryKey: ["stories", page, favorite, debouncedQuery],
     queryFn: () =>
       fetch("/api/stories", {
         method: "POST",
-        body: JSON.stringify({ page, favoritesOnly, query: debouncedQuery }),
+        body: JSON.stringify({ page, favorite, query: debouncedQuery }),
       }).then((res) => res.json()),
     placeholderData: keepPreviousData,
   });
@@ -60,7 +61,7 @@ export const StoriesList = () => {
         }}
         transition={{ duration: 0.5 }}
       >
-        Your {favoritesOnly ? "Favorite" : "Last"} Stories
+        Your {favorite ? "Favorite" : "Last"} Stories
         <div className="flex justify-between items-center gap-2 w-full md:w-auto">
           <Input
             placeholder="Search stories..."
@@ -68,15 +69,11 @@ export const StoriesList = () => {
             onChange={(e) => setQuery(e.target.value)}
             className="max-w-xs"
           />
-          <Button
-            onClick={() => setFavoritesOnly((prev) => !prev)}
-            size={"icon-lg"}
-            variant="ghost"
-          >
+          <Button onClick={toggleFavorite} size={"icon-lg"} variant="ghost">
             <HeartIcon
               className={cn(
                 "size-6",
-                favoritesOnly ? "fill-red-500 text-red-500" : ""
+                favorite ? "fill-red-500 text-red-500" : "",
               )}
             />
           </Button>
