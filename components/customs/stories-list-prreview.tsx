@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
 import { FavoriteButton } from "./favorite-button";
 import { motion } from "motion/react";
 import Markdown from "react-markdown";
-import { Separator } from "../ui/separator";
 
 interface StoryPreviewProps {
   story: GetStoriesResponseType["stories"][number];
