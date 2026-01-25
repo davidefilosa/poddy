@@ -13,6 +13,20 @@ export const generateStory = inngest.createFunction(
     const userId = event.data.userId;
     if (!userId) throw new Error("User not authenticated");
 
+    const news = await step.run("get-news", async () => {
+      const openai = new OpenAI();
+
+      const response = await openai.responses.create({
+        model: "gpt-5",
+        tools: [{ type: "web_search" }],
+        input: `Latest news about ${event.data.topic}.`,
+      });
+
+      console.log(JSON.stringify(response.output_text, null, 2));
+
+      return response.output_text;
+    });
+
     const story = await step.run("generate-story", async () => {
       const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
       const model = genAI.getGenerativeModel({
@@ -23,10 +37,10 @@ export const generateStory = inngest.createFunction(
       });
 
       const content = `
-        You are an engaging and creative teaching assistant.  
-        Based on a topic provided by the user (something they want to learn), you will generate four elements:
+        You are an engaging and creative writer, you write for a famous blog.  
+        Based on a topic and the last news you will generate four elements:
 
-        1. **Transcript** – Explain the topic in an engaging, conversational, and easy-to-understand way.
+        1. **Transcript** – This will be the blog postExplain the topic in an engaging, conversational, and easy-to-understand way.
            Make it clear, vivid, and memorable — use relatable examples, analogies, or real-world context to help the user truly understand the concept.
         
         2. **Title** – Create a short, catchy title (max 8 words) that captures the essence of the story.
@@ -44,15 +58,12 @@ export const generateStory = inngest.createFunction(
         }
         
         Topic: "${event.data.topic}"
+        Latest News: "${news}"
               `;
       const result = await model.generateContent(content);
       const response = result.response;
       console.log(response.text());
-      const text = response
-        .text()
-        .replace("```json", "")
-        .replace("```", "")
-        .replace("ny", "");
+      const text = response.text().replace("```json", "").replace("```", "");
       console.log(text);
       const json = JSON.parse(text);
       return json;
@@ -132,5 +143,5 @@ export const generateStory = inngest.createFunction(
       });
       return storyData;
     });
-  }
+  },
 );
