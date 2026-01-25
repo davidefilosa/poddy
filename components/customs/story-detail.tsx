@@ -12,7 +12,7 @@ import Markdown from "react-markdown";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { useEffect, useState } from "react";
-import { DeleteButton } from "./delete-button";
+import { Tools } from "./tools";
 import { FavoriteButton } from "./favorite-button";
 import { StoryDetailImage } from "./story-detail-image";
 import { Navigation } from "./navigation";
@@ -128,8 +128,8 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
           )}
         </div>
       </div>
+      <Tools id={story.id} />
       <Navigation id={story.id} />
-      <DeleteButton id={story.id} />
     </div>
   );
 };

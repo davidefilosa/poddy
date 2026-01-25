@@ -1,6 +1,6 @@
 "use client";
 
-import { Trash2Icon } from "lucide-react";
+import { PlusCircleIcon, Trash2Icon } from "lucide-react";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -17,13 +17,15 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useState } from "react";
+import { useModalStore } from "@/stores/use-modal-store";
 
 interface DeleteButtonProps {
   id: string;
 }
 
-export const DeleteButton = ({ id }: DeleteButtonProps) => {
+export const Tools = ({ id }: DeleteButtonProps) => {
   const [open, setOpen] = useState(false);
+  const { setOpen: setOpenModal } = useModalStore();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -64,7 +66,14 @@ export const DeleteButton = ({ id }: DeleteButtonProps) => {
         </AlertDialogContent>
       </AlertDialog>
       <div className="flex items-center gap-2 justify-end w-full p-2  border rounded-lg max-w-5xl mx-auto">
-        <div>
+        <div className="flex gap-2">
+          <Button
+            size={"icon"}
+            disabled={isPending}
+            onClick={() => setOpenModal(true)}
+          >
+            <PlusCircleIcon />
+          </Button>
           <Button
             variant="destructive"
             size={"icon"}

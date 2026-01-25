@@ -23,13 +23,13 @@ export const StoryListPreview = ({ story }: StoryPreviewProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       initial={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.5 }}
-      className="w-full border-b pb-8 border-primary "
+      className="w-full border-b pb-8 border-primary group"
       viewport={{ once: true }}
     >
       <div
         className={cn(
           "w-full cursor-pointer h-full relative group flex flex-col gap-4 px-2 md:px-8",
-          !story.ready && "animate-pulse"
+          !story.ready && "animate-pulse",
         )}
         onClick={(e) => {
           e.stopPropagation();
@@ -50,7 +50,7 @@ export const StoryListPreview = ({ story }: StoryPreviewProps) => {
                 "The story and audio are all being generated. You’ll be able to explore the full experience as soon as it’s ready"}
             </Markdown>
           </div>
-          <div className="w-full md:w-1/3">
+          <div className="w-full md:w-1/3 opacity-50 group-hover:opacity-100 transition-opacity duration-200">
             <AspectRatio className="relative w-full" ratio={16 / 9}>
               <Image
                 src={story.image_url || "/placeholder.jpg"}
