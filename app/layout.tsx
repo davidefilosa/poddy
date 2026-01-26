@@ -8,7 +8,6 @@ import { CreateModal } from "@/components/customs/create-modal";
 import { Toaster } from "sonner";
 import { LenisProvider } from "@/components/providers/lenis-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import { Suspense } from "react";
 
 const inter = Inter({
   variable: "--font-inter",
