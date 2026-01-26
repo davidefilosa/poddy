@@ -16,6 +16,7 @@ import { Tools } from "./tools";
 import { FavoriteButton } from "./favorite-button";
 import { StoryDetailImage } from "./story-detail-image";
 import { Navigation } from "./navigation";
+import { cn } from "@/lib/utils";
 
 interface StoryDetailProps {
   id: string;
@@ -59,7 +60,7 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
 
   if (isPending || !story) {
     return (
-      <div className="w-full flex items-center justify-center min-h-screen">
+      <div className="w-full flex  items-center justify-center min-h-screen gap-16">
         <Loader2Icon className="w-8 h-8 animate-spin" />
       </div>
     );
@@ -111,7 +112,12 @@ export const StoryDetail = ({ id }: StoryDetailProps) => {
             </div>
           )}
           {story.transcript ? (
-            <ScrollArea className="h-screen md:h-auto p-4 border rounded-lg">
+            <ScrollArea
+              className={cn(
+                "h-screen  p-4 border rounded-lg",
+                story.transcript ? "h-auto" : "h-screen",
+              )}
+            >
               <div className="whitespace-pre-wrap text-base md:text-lg">
                 <Markdown>{story.transcript}</Markdown>
               </div>

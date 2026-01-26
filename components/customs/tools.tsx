@@ -1,6 +1,6 @@
 "use client";
 
-import { PlusCircleIcon, Trash2Icon } from "lucide-react";
+import { ChevronDownIcon, PlusCircleIcon, Trash2Icon } from "lucide-react";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -18,6 +18,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useState } from "react";
 import { useModalStore } from "@/stores/use-modal-store";
+import { RegenerateButton } from "./regenerate-button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 interface DeleteButtonProps {
   id: string;
@@ -26,6 +33,7 @@ interface DeleteButtonProps {
 export const Tools = ({ id }: DeleteButtonProps) => {
   const [open, setOpen] = useState(false);
   const { setOpen: setOpenModal } = useModalStore();
+  const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -44,6 +52,10 @@ export const Tools = ({ id }: DeleteButtonProps) => {
   const onDelete = (id: string) => {
     toast.loading("Deleting story...", { id: "delete-story" });
     mutate(id);
+  };
+
+  const toggleVisibility = () => {
+    setIsVisible((prev) => !prev);
   };
 
   return (
@@ -65,23 +77,65 @@ export const Tools = ({ id }: DeleteButtonProps) => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <div className="flex items-center gap-2 justify-end w-full p-2  border rounded-lg max-w-5xl mx-auto">
-        <div className="flex gap-2">
-          <Button
-            size={"icon"}
-            disabled={isPending}
-            onClick={() => setOpenModal(true)}
-          >
-            <PlusCircleIcon />
-          </Button>
-          <Button
-            variant="destructive"
-            size={"icon"}
-            disabled={isPending}
-            onClick={() => setOpen(true)}
-          >
-            <Trash2Icon />
-          </Button>
+      <div
+        className={cn(
+          "flex items-center gap-2 justify-between w-full p-2 rounded-lg max-w-5xl mx-auto",
+          isVisible ? "bg-secondary/50  transition-all duration-300" : "",
+        )}
+      >
+        <Button size={"icon"} variant={"outline"} onClick={toggleVisibility}>
+          <ChevronDownIcon
+            className={cn(
+              "-rotate-90 transition-all duration-300 delay-300",
+              isVisible && "rotate-0",
+            )}
+          />
+        </Button>
+        <div
+          className={cn(
+            "flex gap-6 transition-opacity duration-300",
+            isVisible ? "opacity-100" : "opacity-0",
+          )}
+        >
+          <div className="flex gap-1">
+            <Tooltip>
+              <TooltipTrigger>
+                <RegenerateButton id={id} />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Regenerate Story</p>
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button
+                  variant="destructive"
+                  size={"icon"}
+                  disabled={isPending}
+                  onClick={() => setOpen(true)}
+                >
+                  <Trash2Icon />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Delete Story</p>
+              </TooltipContent>
+            </Tooltip>
+          </div>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button
+                size={"icon"}
+                disabled={isPending}
+                onClick={() => setOpenModal(true)}
+              >
+                <PlusCircleIcon />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Create New Story</p>
+            </TooltipContent>
+          </Tooltip>
         </div>
       </div>
     </>

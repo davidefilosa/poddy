@@ -31,8 +31,10 @@ export const Navigation = ({ id }: NavigationProps) => {
           <div
             key={story?.id}
             className={cn(
-              "w-full relative h-32 rounded-md overflow-hidden cursor-pointer hover:opacity-100 transition-opacity",
-              story?.id === id ? "border-2 border-blue-500" : "opacity-50",
+              "w-full relative h-32 rounded-md overflow-hidden cursor-pointer hover:opacity-100 transition-opacity duration-300",
+              story?.id === id
+                ? "border-2 border-primary cursor-auto"
+                : "opacity-50",
             )}
             onClick={() => router.push(`/story/${story?.id}`)}
           >

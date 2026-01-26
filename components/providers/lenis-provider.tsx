@@ -1,27 +1,28 @@
 "use client";
 
 import { ReactLenis, useLenis } from "lenis/react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 export const LenisProvider = ({ children }: { children: React.ReactNode }) => {
   const lenis = useLenis();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (lenis) {
       lenis.stop();
+      console.log("Stop Lenis on route change");
     }
 
     const handleScrollToTop = () => {
       if (lenis) {
         lenis.start();
         window.scrollTo(0, 0);
+        console.log("Scroll to top on route change");
       }
     };
 
     handleScrollToTop();
-  }, [pathname, searchParams, lenis]);
+  }, [pathname, lenis]);
   return (
     <ReactLenis
       className="h-full"
